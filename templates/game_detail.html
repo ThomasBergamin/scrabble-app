@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container my-4">
+
+  <div class="row">
+    <div class="col">
+      <h1 class='text-center mb-3'>Statistiques de la partie du {{game.date}}</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <ul>
+        <li>Lieu : {{game.lieu}}</li>
+        <li>Heure : {{game.heure}}</li>
+        <li>Commentaires : {{game.commentaires}}</li>
+      </ul>
+      <ul>
+
+        {% for player in game_scores %}
+        <li> Nom : {{ player.name }}</li>
+        <li> Score : {{ player.score }}</li>
+        <li> Nombre de scrabbles : {{ player.scrabbles}}</li>
+        <br>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+<div class="row text-center">
+  <div class="col-6 p-1">
+  <a href={% url 'edit_game' game.id %}> <button type="button" class="btn btn-lg btn-success">Editer la partie</button></a>
+  </div>
+
+<div class="col-6 p-1">
+  <a href={% url 'delete_game' game.id %}> <button type="button" class="btn btn-lg btn-danger">Supprimer la partie</button></a>
+</div>
+</div>
+
+
+
+
+
+</div>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container my-4">
+
+  <div class="row">
+    <div class="col">
+      <h1 class="text-center mb-3">Liste des joueurs</h1>
+    </div>
+  </div>
+
+  <div class='row'>
+    {% for player in players %}
+
+    <div class="col-12 col-lg-6">
+
+      <div class="card my-3">
+        <a href={% url 'get_stats' player.pk %}>
+          <div class="card-header text-center pt-3">
+            <h3>{{ player.nom }}</h3>
+          </div>
+        </a>
+
+        <div class="card-body">
+          This is some text within a card body.
+
+        </div>
+
+      </div>
+
+    </div>
+
+    {% endfor %}
+  </div>
+</div>
+
+
+
+{% endblock %}

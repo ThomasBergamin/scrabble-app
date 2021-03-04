@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container my-4">
+
+	<div class="row">
+		<div class="col">
+
+				<h1 class='mb-4 text-center'>Les dernières parties</h1>
+
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-10 mx-auto">
+			<div class='list-group'>
+
+				{% for game, score in games_stats %}
+
+				<a href={% url 'game_detail' game.pk %} class="border border-success list-group-item list-group-item-action">
+					<div class="d-flex w-100 justify-content-between">
+						<h5 class="font-weight-bold my-2 mx-2 text-success">Victoire de {{game.gagnant}} ({{score.score}} pts)</h5>
+						<small class="h6 font-italic my-2 ml-3">{{ game.date }}</small>
+					</div>
+
+					{% if game.commentaires%}
+					<p class="mb-1 mx-2">{{game.commentaires}}</p>
+					{% else %}
+					<p class="mb-1 mx-2">Pas de commentaires</p>
+					{% endif %}
+				</a>
+
+				{% endfor %}
+			</div>
+		</div>
+
+		<div class="row mx-auto my-3">
+			<div class="col">
+				<a href={% url 'games' %}> <button type="button" class="btn btn-lg btn-success mt-3">Voir toutes les parties</button></a>
+
+
+			</div>
+
+		</div>
+
+
+	</div>
+
+
+</div>
+
+
+
+
+{% endblock%}

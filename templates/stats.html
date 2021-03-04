@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container my-4">
+  <div class="row">
+    <div class="col">
+      <h1 class='text-center mb-3'>Statistiques des parties</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-lg-6">
+      <div class="card mt-2 mx-3 my-3 ">
+            <div class="card-header h3  text-center text-success">
+          Nombre de parties
+        </div>
+        <div class="card-body text-center">
+          <h4> {{ number_games }} </h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-6">
+      <div class="card mt-2 mx-3 my-3">
+          <div class="card-header h3  text-center text-success">
+          Moyenne de points / personne
+        </div>
+        <div class="card-body text-center">
+          <h4> {{ mean_points_game_player }} </h4>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-lg-6">
+      <div class="card mt-2 mx-3 my-3">
+          <div class="card-header h3  text-center text-success">
+          Moyenne de points cumulée / partie
+        </div>
+        <div class="card-body text-center">
+          <h4>  {{ mean_points_game }} </h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-6">
+      <div class="card mt-2 mx-3 my-3">
+          <div class="card-header h3  text-center text-success">
+          Record de points
+        </div>
+        <div class="card-body text-center">
+          <h4> {{ high_score }}, le {{ date_hs }} par {{ player_hs}} </h4>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card mt-2 mx-3 my-3">
+            <div class="card-header h3  text-center text-success">
+          Record de scrabbles
+        </div>
+        <div class="card-body text-center">
+          <h4> {{scrabbles_hs}}, le {{date_sc_hs}} par {{ player_sc_hs }} </h4>
+        </div>
+      </div>
+    </div>
+
+</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container my-5">
+	<div class="row">
+		<div class="col">
+			<h1 class='text-center mb-3'>Ajouter un joueur</h1>
+		</div>
+
+	</div>
+
+
+
+<div class="row">
+	<div class="col mx-auto my-1 p-3">
+		<form class="" method="post">{% csrf_token %}
+	{{form|crispy}}
+			<button type="submit" class="btn btn-success my-4 btn-lg">Valider</button>
+		</form>
+	</div>
+</div>
+</div>
+
+
+{% endblock %}

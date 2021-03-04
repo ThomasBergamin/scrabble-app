@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Voulez vous supprimer la partie du {{game.date}}</h1>
+<form method="post">{% csrf_token %}
+    <br>
+    <button type="submit" class="btn btn-danger">Valider</button>
+</form>
+
+
+{% endblock %}

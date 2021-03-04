@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-4">
+  <div class="row">
+    <div class="col">
+      <h1 class='text-center mb-4'>Parties</h1>
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-12">
+
+      <div class="table-responsive-sm">
+
+
+        <table class="table table-bordered table-hover">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col" class='text-center'>#</th>
+              <th scope="col" class="text-center">Joueurs</th>
+              <th scope="col" class="text-center">Résultat</th>
+              <th scope="col" class="text-center">Scores</th>
+              <th scope="col" class="text-center">Scrabbles</th>
+              <th scope="col" class="text-center">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for game in games %}
+
+
+            <tr>
+
+              <th scope="row" class='text-center'>
+                <a href={% url 'game_detail' game.game.pk %} class="">
+                  <p class='mt-5'>
+                    {{forloop.counter0|add:games.start_index}}
+                  </p>
+                </a>
+              </th>
+
+
+
+              {% if game.game.gagnant == game.player_stats.1.joueur %}
+
+              <td>
+                <p class="mt-3 text-center text-danger">{{ game.player_stats.0.joueur}}</p>
+                <p class="text-center text-success">{{ game.player_stats.1.joueur}}</p>
+              </td>
+
+              <td>
+                <p class="text-center mt-3"><i class="far fa-sad-tear"></i></p>
+                <p class="text-center"><i class="fas fa-trophy"></i></p>
+              </td>
+
+              {% else%}
+
+              <td>
+                <p class="mt-3 text-center text-success">{{ game.player_stats.0.joueur}}</p>
+                <p class="text-center text-danger">{{ game.player_stats.1.joueur}}</p>
+              </td>
+
+              <td>
+                <p class="text-center mt-3"><i class="fas fa-trophy"></i></p>
+                <p class="text-center"><i class="far fa-sad-tear"></i></p>
+              </td>
+              {% endif%}
+
+              <td>
+                <p class="text-center mt-3">{{ game.player_stats.0.score}}</p>
+                <p class="text-center">{{ game.player_stats.1.score}}</p>
+              </td>
+
+              <td>
+                <p class="text-center mt-3">{{ game.player_stats.0.nombre_scrabbles}}</p>
+                <p class="text-center">{{ game.player_stats.1.nombre_scrabbles}}</p>
+              </td>
+
+              <td>
+                <p class="text-center mt-4">{{game.game.date}}</p>
+              </td>
+
+
+            </tr>
+
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      {% if games.has_other_pages %}
+      <div class="pagination mt-3">
+        <nav aria-label="Search results pages">
+          <ul class="pagination">
+            {% if games.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?page=1" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+
+            <li class="page-item">
+              <a class="page-link" href="?page={{ games.previous_page_number }}" aria-label="Previous">
+                <span aria-hidden="true">previous</span>
+              </a>
+            </li>
+            {% endif %}
+
+            {% for i in games.paginator.page_range %}
+            {% if games.number == i %}
+            <li class="page-item active"><a class="page-link" href="#">{{i}}</a></li>
+            {% else%}
+            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{i}}</a></li>
+            {% endif%}
+            {% endfor %}
+
+            {% if games.has_next %}
+
+
+            <li class="page-item">
+              <a class="page-link" href="?page={{ games.next_page_number }}" aria-label="Next">
+                <span aria-hidden="true">next</span>
+              </a>
+            </li>
+
+            <li class="page-item">
+              <a class="page-link" href="?page={{ games.paginator.num_pages }}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+            {% endif %}
+
+
+          </ul>
+
+          {% endif%}
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+{% endblock %}
