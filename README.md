@@ -14,7 +14,7 @@ Link to a demo : https://scrabble-app-django.herokuapp.com/
 
 * 🖊️ Python - Django - HTML - CSS - JavaScript
 * 🐙 Github
-* 💻 Sumblime Code
+* 💻 Sublime Code
 
 <!-- GETTING STARTED -->
 ## Getting Started
