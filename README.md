@@ -58,6 +58,8 @@ Thomas Bergamin - bergamin.tom@gmail.com
 
 Project Link: [https://github.com/ThomasBergamin/scrabble-app](https://github.com/ThomasBergamin/scrabble-app)
 
+Demo: https://scrabble-app-django.herokuapp.com/
+
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
