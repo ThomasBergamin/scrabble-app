@@ -3,12 +3,32 @@ from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.core.paginator import Paginator
+from datetime import datetime
 
 from .models import Game, GameStats, Player
 from .forms import GameForm, GameStatsForm, PlayerForm, AddGameForm
 
 
 # Create your views here.
+
+def test_charts(request):
+    # get all games stats player by player
+    games_stats = GameStats.objects.filter(joueur='1').order_by('partie__date')
+
+    # get list of all the scores + date for chart JS
+
+    list_scores = []
+    dates = []
+    for game in games_stats:
+        list_scores.append(game.score)
+        dates.append(game.partie.date.strftime("%d/%m/%Y"))
+
+    context = {
+        'list_scores': list_scores,
+        'dates': dates,
+    }
+    return render(request, 'test.html', context)
+
 
 def get_home(request):
     # get 10 last games in db
@@ -117,7 +137,7 @@ def edit_game(request, pk):
             score_joueur_1.nombre_scrabbles=game_data['nombre_de_scrabbles_1']
             score_joueur_1.save(update_fields=['joueur', 'score', 'nombre_scrabbles'])
 
-           
+
             score_joueur_2.joueur=player_2
             score_joueur_2.score=game_data['score_2']
             score_joueur_2.nombre_scrabbles=game_data['nombre_de_scrabbles_2']
@@ -126,7 +146,7 @@ def edit_game(request, pk):
             return redirect('game_detail', game_id=game.id)
 
 
-    # initial state of the form 
+    # initial state of the form
     form = AddGameForm(initial= {
         'date': game.date,
         'heure': game.heure,
@@ -162,7 +182,7 @@ def get_game_list(request):
           'player_stats': player_stats,
         }
         stats_all_games.append(stats_game)
-    
+
 
 
     paginator = Paginator(stats_all_games, 5)
@@ -183,7 +203,7 @@ class PlayerList(ListView):
     context_object_name = 'players'
     ordering = ['nom']
 
-    
+
 
 
 
@@ -233,10 +253,60 @@ def get_game_detail(request, game_id):
 
 def get_player_stats(request, player_id):
 
-    # get all games player by player
-    games = GameStats.objects.filter(joueur=player_id)
-    print(games)
-    context = {'game': games}
+    # get all games stats player by player
+    games_stats = GameStats.objects.filter(joueur=player_id).order_by('partie__date')
+
+    # get list of all the scores + date for chart JS
+
+    list_scores = []
+    dates = []
+    for game in games_stats:
+        list_scores.append(game.score)
+        dates.append(game.partie.date.strftime("%d/%m/%Y"))
+
+    # get stats
+
+    total_scrabbles = 0
+    total_scores = 0
+    high_score = 0
+    high_score_scrabbles = 0
+
+    for game in games_stats:
+        total_scrabbles += game.nombre_scrabbles
+        total_scores += game.score
+        if game.score > high_score:
+            high_score = game.score
+        if game.nombre_scrabbles > high_score_scrabbles:
+            high_score_scrabbles = game.nombre_scrabbles
+
+    high_score_infos = GameStats.objects.get(score=high_score)
+    high_score_scrabbles_infos = GameStats.objects.filter(nombre_scrabbles=high_score_scrabbles).order_by('partie')[:1]
+
+    mean_scrabbles = round(total_scrabbles / len(games_stats), 2)
+    mean_score = int(round(total_scores/len(games_stats), 0))
+
+    number_games = len(games_stats)
+
+    # get number of game won
+
+    number_win = len(Game.objects.filter(gagnant=player_id))
+    percent_win = round((number_win / number_games) * 100, 1)
+
+    context = {
+        'game': games_stats,
+        'total_scrabbles': total_scrabbles,
+        'mean_scrabbles': mean_scrabbles,
+        'high_score': high_score,
+        'high_score_infos': high_score_infos,
+        'mean_score': mean_score,
+        'high_score_scrabbles': high_score_scrabbles,
+        'high_score_scrabbles_infos': high_score_scrabbles_infos,
+        'number_win': number_win,
+        'number_games': number_games,
+        'percent_win': percent_win,
+        'list_scores': list_scores,
+        'dates': dates,
+    }
     return render(request, 'player_stats.html', context)
 
 
@@ -250,9 +320,10 @@ def get_stats(request):
     high_score = 0
     scrabbles_hs = 0
     total_points = 0
- 
+
+
     for stats in players_stats:
-        # get high score + date 
+        # get high score + date
         if stats.score > high_score:
             high_score = stats.score
             date_hs = stats.partie.date
@@ -278,5 +349,5 @@ def get_stats(request):
         'mean_points_game_player': mean_points_game_player,
         'mean_points_game': mean_points_game,
     }
- 
+
     return render(request, 'stats.html', context)

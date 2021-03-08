@@ -1,12 +1,69 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1 class='text-center my-3'>Statistiques de {{game.0.joueur}}</h1>
-    <ul>
-    	<li>Lieu :</li>
-        <li>Heure : </li>
-    	<li>Commentaires : </li>
-    </ul>
 
+<div class="container my-4">
+
+<div class="row">
+  <div class="col">
+
+    <h1 class='text-center mb-3'>Statistiques de {{game.0.joueur}}</h1>
+
+  </div>
+
+</div>
+<div class="row">
+  <div class="col">
+    <ul class="list-group">
+      <li class="list-group-item">Total de scrabbles : <span class="text-info">{{total_scrabbles}}</span>  scrabbles</li>
+      <li class="list-group-item">Moyenne scrabbles / partie : <span class="text-info">{{mean_scrabbles}}</span> scrabbles par partie </li>
+      <li class="list-group-item">Record de points : <span class="text-info">{{high_score}}</span> , le {{high_score_infos.partie.date}} à {{high_score_infos.partie.lieu}} </li>
+      <li class="list-group-item">Moyenne de points / partie : <span class="text-info">{{mean_score}}</span>  pts</li>
+      <li class="list-group-item">Record de scrabbles : <span class="text-info">{{high_score_scrabbles}}</span>  scrabbles</li>
+      <li class="list-group-item">Pourcentage de victoire : <span class="text-info">{{percent_win}}</span>  %</li>
+      <li class="list-group-item">Nombre de victoires / nombre de parties jouées : <span class="text-info">{{number_win}}</span>  / {{number_games}}</li>
+    </ul>
+  </div>
+
+</div>
+</div>
+
+
+
+<div class="container" id="container" style="width: 70%;">
+    <canvas id="myChart" width="400" height="200"></canvas>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+  <script>
+  var ctx = document.getElementById('myChart');
+  var myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+          labels: {{dates | safe}},
+          datasets: [{
+              label: 'Scores',
+              data: {{list_scores | safe }},
+              backgroundColor: [
+               'rgba(66, 188, 66, 0.7)',
+             ],
+              fill: true,
+              lineTension: 0,
+              borderColor: 'rgba(75, 192, 192, 1)',
+          }]
+      },
+      options: {
+        responsive:true,
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero: true
+                  }
+              }]
+          }
+      }
+  });
+  </script>
+  </script>
 
 {% endblock %}

@@ -13,4 +13,5 @@ urlpatterns = [
     path('players/', PlayerList.as_view(), name='list_players'),
     path('players/stats/<player_id>', views.get_player_stats, name='get_stats'),
     path('stats/', views.get_stats, name='stats'),
+    path('test/', views.test_charts, name='test'),
 ]

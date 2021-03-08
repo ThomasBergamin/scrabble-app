@@ -1,0 +1,1 @@
+web: gunicorn scrabble_app.wsgi

@@ -16,14 +16,14 @@
     <div class="col-12 col-lg-6">
 
       <div class="card my-3">
-        <a href={% url 'get_stats' player.pk %}>
+
           <div class="card-header text-center pt-3">
             <h3>{{ player.nom }}</h3>
           </div>
-        </a>
 
-        <div class="card-body">
-          This is some text within a card body.
+
+        <div class="card-body text-center">
+  <a href={% url 'get_stats' player.id %}><button type="button" class="btn  btn-success">Voir la fiche joueur</button></a>
 
         </div>
 
